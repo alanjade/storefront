@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { MessageCircle, Star, ShoppingBag, CheckCircle, XCircle } from 'lucide-react'
+import { MessageCircle, Star, CheckCircle, XCircle } from 'lucide-react'
 import { Product } from '@/types'
 import { formatPrice, generateOrderLink, getImageSrc } from '@/lib/utils'
 
@@ -26,12 +26,13 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.08 }}
-      className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 card-hover flex flex-col"
+      transition={{ delay: index * 0.06 }}
+      className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
     >
       {/* Image */}
       <Link href={`/product/${product.id}`} className="block relative overflow-hidden product-image-container">
-        <div className="relative h-56 sm:h-64">
+        {/* Fixed aspect ratio: slightly shorter on mobile */}
+        <div className="relative h-48 sm:h-56 md:h-60">
           <Image
             src={imageSrc}
             alt={product.name}
@@ -62,14 +63,14 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       </Link>
 
       {/* Body */}
-      <div className="p-4 flex flex-col flex-1">
-        {/* Category */}
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-medium text-gray-400 uppercase tracking-wide">
+      <div className="p-3 sm:p-4 flex flex-col flex-1">
+        {/* Category + Rating */}
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-xs font-medium text-gray-400 uppercase tracking-wide truncate pr-2">
             {product.category}
           </span>
           {product.rating && (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 flex-shrink-0">
               <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
               <span className="text-xs font-semibold text-gray-600">{product.rating}</span>
             </div>
@@ -78,47 +79,53 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
 
         {/* Name */}
         <Link href={`/product/${product.id}`}>
-          <h3 className="font-semibold text-gray-900 text-base leading-snug line-clamp-2 hover:underline decoration-dotted mb-1">
+          <h3 className="font-semibold text-gray-900 text-sm sm:text-base leading-snug line-clamp-2 hover:underline decoration-dotted mb-1">
             {product.name}
           </h3>
         </Link>
 
-        {/* Description */}
-        <p className="text-sm text-gray-500 line-clamp-2 mb-3 flex-1">
+        {/* Description — hidden on very small screens to save space */}
+        <p className="hidden xs:block text-sm text-gray-500 line-clamp-2 mb-2 sm:mb-3 flex-1">
           {product.description}
         </p>
 
         {/* Stock status */}
-        <div className="flex items-center gap-1.5 mb-3">
+        <div className="flex items-center gap-1.5 mb-3 mt-auto">
           {product.inStock ? (
             <>
-              <CheckCircle className="w-3.5 h-3.5 text-green-500" />
+              <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
               <span className="text-xs font-medium text-green-600">In Stock</span>
             </>
           ) : (
             <>
-              <XCircle className="w-3.5 h-3.5 text-red-400" />
+              <XCircle className="w-3.5 h-3.5 text-red-400 flex-shrink-0" />
               <span className="text-xs font-medium text-red-500">Out of Stock</span>
             </>
           )}
         </div>
 
-        {/* Price + CTA */}
-        <div className="flex items-center justify-between gap-3 mt-auto">
-          <div>
-            <p className="text-xl font-bold text-gray-900">₦{formatPrice(product.price)}</p>
+        {/* Price + CTA — always in a row, CTA grows on mobile */}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex-shrink-0">
+            <p className="text-lg sm:text-xl font-bold text-gray-900 leading-none">
+              ₦{formatPrice(product.price)}
+            </p>
           </div>
+
           <a
             href={orderLink}
             target="_blank"
             rel="noopener noreferrer"
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold text-white transition-all hover:scale-105 active:scale-95 whitespace-nowrap ${
-              !product.inStock ? 'opacity-50 pointer-events-none' : ''
+            aria-disabled={!product.inStock}
+            className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold text-white transition-all active:scale-95 whitespace-nowrap ${
+              !product.inStock
+                ? 'opacity-50 pointer-events-none'
+                : 'hover:scale-105'
             }`}
             style={{ background: 'var(--color-primary)' }}
             onClick={e => !product.inStock && e.preventDefault()}
           >
-            <MessageCircle className="w-4 h-4" />
+            <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
             Order
           </a>
         </div>

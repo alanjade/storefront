@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import { MessageCircle } from 'lucide-react'
-import { storeConfig } from '@/config/store'
 import { generateGeneralInquiryLink } from '@/lib/utils'
 
 export function FloatingWhatsAppButton() {
@@ -13,7 +12,7 @@ export function FloatingWhatsAppButton() {
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 1.5, type: 'spring', stiffness: 200 }}
-      className="fixed bottom-24 right-5 z-50 md:bottom-8 md:right-8"
+      className="hidden md:block fixed bottom-8 right-8 z-50"
     >
       <a
         href={waLink}

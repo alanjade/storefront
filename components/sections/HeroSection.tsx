@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import Link from 'next/link'
 import { MessageCircle, ChevronDown, ArrowRight, Star } from 'lucide-react'
 import { storeConfig } from '@/config/store'
 import { generateGeneralInquiryLink, getImageSrc } from '@/lib/utils'
@@ -11,7 +10,7 @@ export function HeroSection() {
   const waLink = generateGeneralInquiryLink()
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gray-950">
+    <section className="relative min-h-[100svh] flex items-center overflow-hidden bg-gray-950">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -23,7 +22,6 @@ export function HeroSection() {
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-gray-950/90 to-gray-900/70" />
-        {/* Decorative orbs */}
         <div
           className="absolute top-1/4 right-1/3 w-96 h-96 rounded-full blur-3xl opacity-20"
           style={{ background: 'var(--color-primary)' }}
@@ -35,16 +33,17 @@ export function HeroSection() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-24 sm:pb-16">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
           {/* Left: Text */}
-          <div>
+          <div className="text-center lg:text-left">
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium mb-6"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium mb-5 sm:mb-6"
               style={{
                 background: 'rgba(37, 211, 102, 0.15)',
                 border: '1px solid rgba(37, 211, 102, 0.3)',
@@ -55,12 +54,12 @@ export function HeroSection() {
               Now accepting WhatsApp orders
             </motion.div>
 
-            {/* Headline */}
+            {/* Headline — scales from 36px on small to 72px on xl */}
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-bold text-white leading-[1.1] mb-4 sm:mb-6"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               {storeConfig.tagline.split(' ').slice(0, 2).join(' ')}
@@ -75,7 +74,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-lg text-gray-300 mb-8 leading-relaxed max-w-lg"
+              className="text-base sm:text-lg text-gray-300 mb-6 sm:mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0"
             >
               {storeConfig.description}
             </motion.p>
@@ -85,7 +84,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
-              className="flex items-center gap-3 mb-8"
+              className="flex items-center gap-3 mb-6 sm:mb-8 justify-center lg:justify-start"
             >
               <div className="flex -space-x-2">
                 {['bg-pink-400', 'bg-blue-400', 'bg-yellow-400', 'bg-purple-400'].map((color, i) => (
@@ -102,12 +101,12 @@ export function HeroSection() {
               </div>
             </motion.div>
 
-            {/* CTAs */}
+            {/* CTAs — stack on mobile, row on sm+ */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start"
             >
               <a
                 href={waLink}
@@ -134,7 +133,7 @@ export function HeroSection() {
             </motion.div>
           </div>
 
-          {/* Right: Product showcase cards */}
+          {/* Right: Product showcase cards — only on lg+ */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -143,30 +142,10 @@ export function HeroSection() {
           >
             <div className="grid grid-cols-2 gap-4">
               {[
-                {
-                  img: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&q=80',
-                  label: 'Wireless Earbuds',
-                  price: '₦45,000',
-                  badge: 'Best Seller',
-                },
-                {
-                  img: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=80',
-                  label: 'Designer Bag',
-                  price: '₦78,000',
-                  badge: 'New',
-                },
-                {
-                  img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80',
-                  label: 'Smart Watch',
-                  price: '₦95,000',
-                  badge: 'Premium',
-                },
-                {
-                  img: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&q=80',
-                  label: 'Skincare Set',
-                  price: '₦32,000',
-                  badge: 'Top Rated',
-                },
+                { img: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&q=80', label: 'Wireless Earbuds', price: '₦45,000', badge: 'Best Seller' },
+                { img: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=400&q=80', label: 'Designer Bag', price: '₦78,000', badge: 'New' },
+                { img: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80', label: 'Smart Watch', price: '₦95,000', badge: 'Premium' },
+                { img: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&q=80', label: 'Skincare Set', price: '₦32,000', badge: 'Top Rated' },
               ].map((item, i) => (
                 <motion.div
                   key={i}
@@ -202,7 +181,7 @@ export function HeroSection() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center gap-1"
+        className="absolute bottom-28 sm:bottom-8 left-1/2 -translate-x-1/2 text-white/50 flex flex-col items-center gap-1"
         animate={{ y: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
       >
